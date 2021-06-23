@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePutingBeliungTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('puting_beliung', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('id_potensi_awan')->unsigned();
+            $table->string('potensi_awan');
+            $table->integer('riwayat_bencana');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('puting_beliung');
+    }
+}

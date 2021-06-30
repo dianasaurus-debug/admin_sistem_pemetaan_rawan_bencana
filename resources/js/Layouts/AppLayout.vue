@@ -2,51 +2,50 @@
     <div class="leading-normal tracking-normal" id="main-body">
         <div class="flex flex-wrap">
 
-            <div class="text-white w-1/2 md:w-1/3 lg:w-64 fixed md:top-0 md:left-0 h-screen lg:block z-30" style="background-color: #3d3d3d" :class="sideBarOpen ? '' : 'hidden'" id="main-nav" >
+            <div class="text-white w-1/2 md:w-1/3 lg:w-64 fixed md:top-0 md:left-0 h-screen lg:block z-50" style="background-color: #3d3d3d" :class="sideBarOpen ? '' : 'hidden'" id="main-nav" >
 
                 <div class="w-full h-20 flex px-6 items-center mb-4">
                     <p class="font-semibold text-md">EWARN BOJONEGORO</p>
                 </div>
 
                 <div class="mb-4 px-6">
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    <inertia-link href="/dashboard" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Dashboard
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/kecamatan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Kecamatan
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/kelurahan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Desa/Kelurahan
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/kepadatan-penduduk" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Penduduk
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/jarak-sumber-air" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Sumber Air
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/curah-hujan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Curah Hujan
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/sop-bencana" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         SOP Bencana
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/stasiun-hujan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Stasiun Hujan
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/riwayat-bencana" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Riwayat Bencana
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/kemirian-lahan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Kemiringan Lahan
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/persebaran-drainase" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Persebaran Drainase
-                    </div>
-                    <div class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </inertia-link>
+                    <inertia-link href="/pergerakan-awan-cb" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Pergerakan Awan CB
-                    </div>
+                    </inertia-link>
                 </div>
-
 
             </div>
 
@@ -67,10 +66,51 @@
 
                         </div>
 
-                        <!-- right navbar -->
-                        <div class="flex items-center relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="fill-current mr-3 hover:text-blue-500"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
-                            <img src="https://a7sas.net/wp-content/uploads/2019/07/4060.jpeg" class="w-12 h-12 rounded-full shadow-lg" @click="dropDownOpen = !dropDownOpen">
+<!--                        &lt;!&ndash; right navbar &ndash;&gt;-->
+<!--                        <div class="flex items-center relative">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="fill-current mr-3 hover:text-blue-500"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>-->
+<!--                            <img src="https://a7sas.net/wp-content/uploads/2019/07/4060.jpeg" class="w-12 h-12 rounded-full shadow-lg" @click="dropDownOpen = !dropDownOpen">-->
+<!--                        </div>-->
+                        <div class="hidden sm:flex sm:items-center sm:ml-6x">
+                            <div class="ml-3 relative">
+                                <jet-dropdown align="right" width="48">
+                                    <template #trigger>
+                                        <button  class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                            {{ $page.props.user.name }}
+                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                 fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                      d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"/>
+                                            </svg>
+                                        </button>
+                                    </template>
+
+                                    <template #content>
+                                        <jet-dropdown-link href="/user/profile">
+                                            Profile
+                                        </jet-dropdown-link>
+
+
+                                        <!-- Authentication -->
+                                        <form @submit.prevent="logout">
+                                            <jet-dropdown-link as="button">
+                                                Logout
+                                            </jet-dropdown-link>
+                                        </form>
+                                    </template>
+                                </jet-dropdown>
+                            </div>
+                        </div>
+
+                        <!-- Hamburger -->
+                        <div class="-mr-2 flex items-center sm:hidden">
+                            <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <path :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                    <path :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
 
                     </div>
@@ -84,9 +124,10 @@
                     <!-- dropdown menu end -->
 
                 </div>
-
-
-                <div class="p-6 bg-gray-100 mb-20">
+                    <div class="ml-4 inline-block flex items-center mx-auto fixed z-50 bg-white overflow-hidden py-4 px-4 shadow-sm sm:rounded-lg " style="bottom : 84%;width: 80%">
+                        <slot name="header"></slot>
+                    </div>
+                <div class="p-2 bg-gray-100 mb-20">
                     <slot></slot>
                 </div>
 
@@ -126,14 +167,6 @@
         },
 
         methods: {
-            switchToTeam(team) {
-                this.$inertia.put(route('current-team.update'), {
-                    'team_id': team.id
-                }, {
-                    preserveState: false
-                })
-            },
-
             logout() {
                 this.$inertia.post(route('logout'));
             },

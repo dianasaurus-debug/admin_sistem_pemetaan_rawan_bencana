@@ -16,8 +16,8 @@ class CreateStasiunHujanTable extends Migration
         Schema::create('stasiun_hujan', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_kecamatan')->unsigned();
-            $table->integer('sh_nomor');
-            $table->integer(('sh_nama'));
+            $table->string('sh_nomor');
+            $table->string(('sh_nama'));
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetailSop extends Model
 {
     protected $table = 'detail_sop';
+    protected $guarded = [];
 
     use HasFactory;
 }

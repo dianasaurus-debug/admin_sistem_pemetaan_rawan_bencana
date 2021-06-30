@@ -16,6 +16,7 @@ class CreateSopTable extends Migration
         Schema::create('sop', function (Blueprint $table) {
             $table->id();
             $table->string('jenis_sop');
+            $table->tinyInteger('jenis_bencana')->comment = "0:Banjir, 1:Kekeringan, 2:longsor, 3:putingbeliung";
             $table->timestamps();
         });
     }

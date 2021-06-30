@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ParameterKekeringan extends Model
 {
     protected $table = 'parameter_kekeringan';
-
+    protected $guarded = [];
     use HasFactory;
 }

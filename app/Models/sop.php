@@ -9,4 +9,8 @@ class sop extends Model
 {
     protected $table = 'sop';
     use HasFactory;
+    protected $guarded = [];
+    public function detail_sop(){
+        return $this->hasMany(DetailSop::class, 'id_sop');
+    }
 }

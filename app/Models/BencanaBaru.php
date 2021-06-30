@@ -9,4 +9,6 @@ class BencanaBaru extends Model
 {
     protected $table = 'bencana_baru';
     use HasFactory;
+    protected $guarded = [];
+
 }

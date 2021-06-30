@@ -9,4 +9,6 @@ class TingkatRawan extends Model
 {
     protected $table = 'tingkat_rawan';
     use HasFactory;
+    protected $guarded = [];
+
 }

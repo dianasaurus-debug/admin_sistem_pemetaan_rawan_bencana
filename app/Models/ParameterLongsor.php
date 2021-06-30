@@ -9,4 +9,5 @@ class ParameterLongsor extends Model
 {
     protected $table = 'parameter_longsor';
     use HasFactory;
+    protected $guarded = [];
 }

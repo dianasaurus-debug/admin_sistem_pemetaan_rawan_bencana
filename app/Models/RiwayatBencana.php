@@ -9,4 +9,5 @@ class RiwayatBencana extends Model
 {
     protected $table = 'riwayat_bencana';
     use HasFactory;
+    protected $guarded = [];
 }

@@ -9,4 +9,6 @@ class PutingBeliung extends Model
 {
     protected $table = 'puting_beliung';
     use HasFactory;
+    protected $guarded = [];
+
 }

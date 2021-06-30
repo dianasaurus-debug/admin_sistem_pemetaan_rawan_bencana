@@ -9,4 +9,8 @@ class CurahHujan extends Model
 {
     protected $table = 'curah_hujan';
     use HasFactory;
+    protected $guarded = [];
+    public function stasiun(){
+        return $this->belongsTo(StasiunHujan::class, 'id_stasiun', 'id');
+    }
 }

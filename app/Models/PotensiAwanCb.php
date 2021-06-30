@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PotensiAwanCb extends Model
 {
     protected $table = 'potensi_awan_cb';
-
+    protected $guarded = [];
     use HasFactory;
 }

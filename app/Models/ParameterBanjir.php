@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ParameterBanjir extends Model
 {
     protected $table = 'parameter_banjir';
-
+    protected $guarded = [];
     use HasFactory;
 }

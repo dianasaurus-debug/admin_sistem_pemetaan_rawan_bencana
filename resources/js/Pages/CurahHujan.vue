@@ -1,4 +1,7 @@
 <template>
+    <inertia-head>
+        <title>Data Curah Hujan</title>
+    </inertia-head>
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -26,7 +29,7 @@
                         <tbody>
                         <tr v-for="row in curahhujan.data">
                             <td class="border px-4 py-2">{{ row.id }}</td>
-                            <td class="border px-4 py-2">{{ row.stasiun_hujan.kec_nama }}</td>
+                            <td class="border px-4 py-2">{{ row.stasiun.sh_nama }}</td>
                             <td class="border px-4 py-2">{{ row.ch_volume }}</td>
                             <td class="border px-4 py-2">{{ row.ch_bulan }}</td>
                             <td class="border px-4 py-2">{{ row.ch_tahun }}</td>
@@ -62,8 +65,7 @@
                                         <div class="">
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama
-                                                    Kecamatan:</label>
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama Stasiun:</label>
                                                 <!--                                                <div v-if="$page.errors.kec_nama" class="text-red-500">{{ $page.errors.kec_nama[0] }}</div>-->
                                                 <Multiselect v-model="form.id_stasiun"
                                                              :searchable="true"
@@ -82,16 +84,10 @@
                                             </div>
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Tahun Curah Hujan :</label>
-                                                <vuejs-datepicker
-                                                    :value="form.ch_tahun"
-                                                    :format="DatePickerFormat"
-                                                    :language="language"
-                                                    minimum-view="year"
-                                                    name="datepicker"
-                                                    id="input-id"
-                                                    input-class="input-class"></vuejs-datepicker>
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Tahun dan Bulan Curah Hujan :</label>
                                                 <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
+                                                <month-picker @change="changeDate" :default-month="bulan+1" :default-year="tahun" :lang="'id'"></month-picker>
+
                                             </div>
 
                                         </div>
@@ -134,9 +130,10 @@ import AppLayout from '../Layouts/AppLayout'
 import Input from "@/Jetstream/Input";
 import Pagination from '@/Components/Pagination'
 import Multiselect from '@vueform/multiselect'
-import vuejsDatepicker from 'vuejs-datepicker';
-import {id} from 'vuejs-datepicker/dist/locale'
-
+import { MonthPicker } from 'vue-month-picker';
+import { MonthPickerInput } from 'vue-month-picker';
+import moment from "moment";
+moment.locale('id');
 export default {
     name: "Drainase",
     components: {
@@ -144,7 +141,8 @@ export default {
         AppLayout,
         Pagination,
         Multiselect,
-        vuejsDatepicker
+        MonthPicker,
+        MonthPickerInput
     },
     props: ['curahhujan', 'stasiun_hujan', 'errors'],
     data() {
@@ -158,8 +156,15 @@ export default {
                 ch_tahun: null,
             },
             dataStasiun : [],
-            DatePickerFormat: 'yyyy',
-            languange : id
+            tanggal: {
+                from: null,
+                to: null,
+                month: null,
+                year: null
+            },
+            bulan : '',
+            tahun : '',
+            daftar_bulan : ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
         }
     },
     created() {
@@ -188,6 +193,8 @@ export default {
             };
         },
         save: function (data) {
+            data.ch_bulan = this.tanggal.month;
+            data.ch_tahun = this.tanggal.year;
             this.$inertia.post('/curah-hujan', data)
             this.reset();
             this.closeModal();
@@ -195,13 +202,21 @@ export default {
         },
         edit: function (data) {
             this.form = Object.assign({}, data);
+            var indexBulan = this.daftar_bulan.indexOf(data.ch_bulan);
+            // this.tanggal.month = data.ch_bulan;
+            // this.tanggal.year = data.ch_tahun;
+            // this.tanggal.from = new Date();
+            // this.tanggal.from.setFullYear(data.ch_tahun);
+            // this.tanggal.from.setMonth(indexBulan);
+            // this.tanggal.from.setDate(1)
+            this.bulan = indexBulan;
+            this.tahun = data.ch_tahun;
             this.editMode = true;
             this.openModal();
         },
         update: function (data) {
-            this.form = Object.assign({}, data);
             this.form._method = "PUT";
-            this.$inertia.post('/curah-hujan/' + data.id, this.form)
+            this.$inertia.post('/curah-hujan/' + data.id, {id_stasiun : data.id_stasiun, ch_volume : data.ch_volume, ch_bulan : this.tanggal.month,ch_tahun : this.tanggal.year, _method : 'PUT'})
             this.reset();
             this.closeModal();
         },
@@ -211,6 +226,9 @@ export default {
             this.$inertia.post('/curah-hujan/' + data.id, data)
             this.reset();
             this.closeModal();
+        },
+        changeDate(date){
+            this.tanggal = date;
         }
     }
 }

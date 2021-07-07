@@ -9,42 +9,42 @@
                 </div>
 
                 <div class="mb-4 px-6">
-                    <inertia-link href="/dashboard" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    <jet-nav-link href="/dashboard" :active="route().current('dashboard')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Dashboard
-                    </inertia-link>
-                    <inertia-link href="/kecamatan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/kecamatan" :active="route().current('kecamatan.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Kecamatan
-                    </inertia-link>
-                    <inertia-link href="/kelurahan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/kelurahan" :active="route().current('kelurahan.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Desa/Kelurahan
-                    </inertia-link>
-                    <inertia-link href="/kepadatan-penduduk" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/kepadatan-penduduk" :active="route().current('kepadatan-penduduk.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Penduduk
-                    </inertia-link>
-                    <inertia-link href="/jarak-sumber-air" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/jarak-sumber-air" :active="route().current('jarak-sumber-air.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Sumber Air
-                    </inertia-link>
-                    <inertia-link href="/curah-hujan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/curah-hujan" :active="route().current('curah-hujan.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Curah Hujan
-                    </inertia-link>
-                    <inertia-link href="/sop-bencana" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/sop-bencana" :active="route().current('sop-bencana')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         SOP Bencana
-                    </inertia-link>
-                    <inertia-link href="/stasiun-hujan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/stasiun-hujan" :active="route().current('stasiun-hujan.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Stasiun Hujan
-                    </inertia-link>
-                    <inertia-link href="/riwayat-bencana" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/riwayat-bencana" :active="route().current('riwayat-bencana.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Riwayat Bencana
-                    </inertia-link>
-                    <inertia-link href="/kemirian-lahan" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/kemiringan-lahan" :active="route().current('kemiringan-lahan.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Kemiringan Lahan
-                    </inertia-link>
-                    <inertia-link href="/persebaran-drainase" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/persebaran-drainase" :active="route().current('persebaran-drainase.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Persebaran Drainase
-                    </inertia-link>
-                    <inertia-link href="/pergerakan-awan-cb" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    </jet-nav-link>
+                    <jet-nav-link href="/pergerakan-awan-cb"  :active="route().current('pergerakan-awan-cb.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Pergerakan Awan CB
-                    </inertia-link>
+                    </jet-nav-link>
                 </div>
 
             </div>
@@ -176,3 +176,9 @@
         }
     }
 </script>
+<style>
+.active {
+    color : yellow;
+}
+</style>
+

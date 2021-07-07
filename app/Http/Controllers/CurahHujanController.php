@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CurahHujan;
 use App\Models\StasiunHujan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class CurahHujanController extends Controller
@@ -17,10 +18,10 @@ class CurahHujanController extends Controller
     public function index()
     {
         $curahhujan = CurahHujan::orderBy('id', 'asc')
-            ->with('kecamatan')
+            ->with('stasiun')
             ->paginate(7);
         $stasiun_hujan = StasiunHujan::all();
-        return Inertia::render('Drainase', ['curahhujan' => $curahhujan, 'stasiun_hujan' => $stasiun_hujan]);
+        return Inertia::render('CurahHujan', ['curahhujan' => $curahhujan, 'stasiun_hujan' => $stasiun_hujan]);
     }
 
     /**
@@ -41,7 +42,17 @@ class CurahHujanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'id_stasiun' => ['required'],
+            'ch_volume' => ['required'],
+            'ch_bulan' => ['required'],
+            'ch_tahun' => ['required'],
+        ])->validate();
+
+        CurahHujan::create($request->all());
+
+        return redirect()->back()
+            ->with('message', 'Curah Hujan sukses dibuat.');
     }
 
     /**
@@ -75,7 +86,18 @@ class CurahHujanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Validator::make($request->all(), [
+            'id_stasiun' => ['required'],
+            'ch_volume' => ['required'],
+            'ch_bulan' => ['required'],
+            'ch_tahun' => ['required'],
+        ])->validate();
+
+        if ($id) {
+            CurahHujan::find($id)->update($request->all());
+            return redirect()->back()
+                ->with('message', 'Kecamatan sukses diupdate.');
+        }
     }
 
     /**
@@ -86,6 +108,9 @@ class CurahHujanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            CurahHujan::find($id)->delete();
+            return redirect()->back();
+        }
     }
 }

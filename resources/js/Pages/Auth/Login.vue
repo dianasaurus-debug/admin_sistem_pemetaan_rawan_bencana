@@ -1,4 +1,7 @@
 <template>
+    <inertia-head>
+        <title>Login</title>
+    </inertia-head>
     <jet-authentication-card>
         <template #logo>
             <jet-authentication-card-logo/>

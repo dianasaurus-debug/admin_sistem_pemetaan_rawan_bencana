@@ -32,6 +32,9 @@
         "@fortawesome/fontawesome-free": "^5.15.3",
         "@vueform/multiselect": "^2.0.0",
         "leaflet": "^1.7.1",
+        "moment": "^2.29.1",
+        "vue-month-picker": "^1.5.0",
+        "vue-monthly-picker": "^0.2.8",
         "vuejs-datepicker": "^1.6.2",
         "vuex": "^3.6.2"
     }

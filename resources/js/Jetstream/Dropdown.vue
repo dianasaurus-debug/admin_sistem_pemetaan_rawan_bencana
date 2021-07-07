@@ -16,7 +16,8 @@
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95">
             <div v-show="open"
-                    class="absolute z-50 mt-2 rounded-md shadow-lg"
+                    class="absolute mt-2 rounded-md shadow-lg"
+                    id="dropdown-profile"
                     :class="[widthClass, alignmentClasses]"
                     style="display: none;"
                     @click="open = false">
@@ -80,3 +81,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+#dropdown-profile {
+    z-index: 1000;
+}
+</style>

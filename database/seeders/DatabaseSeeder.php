@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\JenisBencana;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(DetailSopSeeder::class);
         $this->call(DrainaseSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(JenisBencanaSeeder::class);
+
 
 
 

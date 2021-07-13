@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kecamatan;
+use App\Models\KemiringanLahan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class KemiringanLahanController extends Controller
 {
@@ -13,7 +17,14 @@ class KemiringanLahanController extends Controller
      */
     public function index()
     {
-        //
+        $kemiringan_lahan = KemiringanLahan::orderBy('id', 'asc')
+            ->with('kecamatan')
+            ->with('desa')
+            ->paginate(7);
+        $kecamatan = Kecamatan::with('desa')->get();
+
+        return Inertia::render('KemiringanLahan', ['kemiringan_lahan' => $kemiringan_lahan, 'kecamatan' => $kecamatan]);
+
     }
 
     /**
@@ -34,7 +45,16 @@ class KemiringanLahanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'id_kelurahan' => ['required'],
+            'id_kecamatan' => ['required'],
+            'kemiringan_indeks' => ['required'],
+        ])->validate();
+
+        KemiringanLahan::create($request->all());
+
+        return redirect()->back()
+            ->with('message', 'Data Kemiringan Lahan sukses dibuat.');
     }
 
     /**
@@ -68,7 +88,15 @@ class KemiringanLahanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Validator::make($request->all(), [
+            'id_kelurahan' => ['required'],
+            'id_kecamatan' => ['required'],
+            'kemiringan_indeks' => ['required'],
+        ])->validate();
+        KemiringanLahan::find($id)->update($request->all());
+
+        return redirect()->back()
+            ->with('message', 'Data Kemiringan Lahan sukses diupdate.');
     }
 
     /**
@@ -79,6 +107,9 @@ class KemiringanLahanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            KemiringanLahan::find($id)->delete();
+            return redirect()->back();
+        }
     }
 }

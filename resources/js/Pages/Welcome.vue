@@ -1,4 +1,9 @@
 <template>
+    <inertia-head>
+        <title>
+            EWARN BOJONEGORO
+        </title>
+    </inertia-head>
     <div class="relative flex items-top justify-center min-h-screen bg-cover bg-center sm:items-center sm:pt-0" style="background-image: url('/assets/images/bg-welcome.jpg');">
         <div class="hidden fixed top-0 left-0 px-6 py-4 sm:block">
             <inertia-link :href="route('dashboard')" class="font-bold text-lg">

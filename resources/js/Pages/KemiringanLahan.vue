@@ -1,11 +1,11 @@
 <template>
     <inertia-head>
-        <title>Data Curah Hujan</title>
+        <title>Data Kemiringan Lahan</title>
     </inertia-head>
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Data Curah Hujan
+                Data Kemiringan Lahan
             </h2>
         </template>
         <div class="py-12">
@@ -19,20 +19,18 @@
                         <thead>
                         <tr class="bg-gray-100">
                             <th class="px-4 py-2 w-20">No.</th>
-                            <th class="px-4 py-2">Nama Stasiun Hujan</th>
-                            <th class="px-4 py-2">Volume</th>
-                            <th class="px-4 py-2">Bulan</th>
-                            <th class="px-4 py-2">Tahun</th>
+                            <th class="px-4 py-2">Nama Desa</th>
+                            <th class="px-4 py-2">Nama Kecamatan</th>
+                            <th class="px-4 py-2">Indeks Kemiringan</th>
                             <th class="px-4 py-2">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="row in curahhujan.data">
+                        <tr v-for="row in kemiringan_lahan.data">
                             <td class="border px-4 py-2">{{ row.id }}</td>
-                            <td class="border px-4 py-2">{{ row.stasiun.sh_nama }}</td>
-                            <td class="border px-4 py-2">{{ row.ch_volume }}</td>
-                            <td class="border px-4 py-2">{{ row.ch_bulan }}</td>
-                            <td class="border px-4 py-2">{{ row.ch_tahun }}</td>
+                            <td class="border px-4 py-2">{{ row.desa.kel_nama }}</td>
+                            <td class="border px-4 py-2">{{ row.kecamatan.kec_nama }}</td>
+                            <td class="border px-4 py-2">{{ row.kemiringan_indeks }}</td>
                             <td class="border px-4 py-2">
                                 <button @click="edit(row)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -46,7 +44,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination class="mt-6" :links="curahhujan.links"/>
+                    <pagination class="mt-6" :links="kemiringan_lahan.links"/>
 
                     <div class="fixed z-50 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpen">
                         <div
@@ -65,31 +63,35 @@
                                         <div class="">
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama Stasiun:</label>
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama
+                                                    Kecamatan:</label>
                                                 <!--                                                <div v-if="$page.errors.kec_nama" class="text-red-500">{{ $page.errors.kec_nama[0] }}</div>-->
-                                                <Multiselect v-model="form.id_stasiun"
+                                                <Multiselect v-model="form.id_kecamatan"
                                                              :searchable="true"
-                                                             :options="dataStasiun"
-                                                             placeholder="Pilih Stasiun Hujan"/>
+                                                             :options="dataKecamatan"
+                                                             placeholder="Pilih Kecamatan" @change="getDataDesa"/>
                                             </div>
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Volume Curah Hujan (Litre):</label>
-                                                <input type="number"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama
+                                                    Desa:</label>
+                                                <!--                                                <div v-if="$page.errors.kec_nama" class="text-red-500">{{ $page.errors.kec_nama[0] }}</div>-->
+                                                <Multiselect v-model="form.id_kelurahan"
+                                                             :searchable="true"
+                                                             :options="dataDesa"
+                                                             placeholder="Pilih Desa/Kelurahan"
+                                                             :disabled="form.id_kecamatan==null"/>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="exampleFormControlInput1"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Kemiringan Lahan:</label>
+                                                <input type="text"
                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                                        id="exampleFormControlInput1"
-                                                       placeholder="Masukkan Kapasitas Drainase"
-                                                       v-model="form.ch_volume">
+                                                       placeholder="Masukkan Kepadatan Penduduk"
+                                                       v-model="form.kemiringan_indeks">
                                                 <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
                                             </div>
-                                            <div class="mb-4">
-                                                <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Tahun dan Bulan Curah Hujan :</label>
-                                                <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
-                                                <month-picker @change="changeDate" :default-month="bulan+1" :default-year="tahun" :lang="'id'"></month-picker>
-
-                                            </div>
-
                                         </div>
                                     </div>
                                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -125,57 +127,69 @@
         </div>
     </app-layout>
 </template>
+
 <script>
 import AppLayout from '../Layouts/AppLayout'
 import Input from "@/Jetstream/Input";
 import Pagination from '@/Components/Pagination'
 import Multiselect from '@vueform/multiselect'
-import { MonthPicker } from 'vue-month-picker';
-import { MonthPickerInput } from 'vue-month-picker';
-import moment from "moment";
-moment.locale('id');
+
 export default {
-    name: "Drainase",
+    name: "KemiringanLahan",
     components: {
         Input,
         AppLayout,
         Pagination,
-        Multiselect,
-        MonthPicker,
-        MonthPickerInput
+        Multiselect
     },
-    props: ['curahhujan', 'stasiun_hujan', 'errors'],
+    props: ['kemiringan_lahan', 'kecamatan', 'errors'],
     data() {
         return {
             editMode: false,
             isOpen: false,
             form: {
-                id_stasiun: null,
-                ch_volume: null,
-                ch_bulan: null,
-                ch_tahun: null,
+                id_kecamatan: null,
+                id_kelurahan: null,
+                kemiringan_indeks: null,
             },
-            dataStasiun : [],
-            tanggal: {
-                from: null,
-                to: null,
-                month: null,
-                year: null
-            },
-            bulan : '',
-            tahun : '',
-            daftar_bulan : ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+            dataKecamatan: [],
+            dataDesa: []
         }
     },
     created() {
-        this.stasiun_hujan.forEach(stasiun=>{
-            this.dataStasiun.push({
-                value : stasiun.id,
-                label : stasiun.sh_nama
+        this.kecamatan.forEach(kecamatan => {
+            this.dataKecamatan.push({
+                value: kecamatan.id,
+                label: this.capitalize(kecamatan.kec_nama)
+            })
+            kecamatan.desa.forEach(desa => {
+                this.dataDesa.push({
+                    value: desa.id,
+                    label: this.capitalize(desa.kel_nama)
+                })
             })
         })
     },
     methods: {
+        capitalize(word) {
+            const lower = word.toLowerCase();
+            return word.charAt(0).toUpperCase() + lower.slice(1);
+        },
+        getDataDesa(id) {
+            this.form.id_kelurahan = null;
+            this.dataDesa = [];
+            this.kecamatan.forEach(kecamatan => {
+                if (kecamatan.id == id) {
+                    kecamatan.desa.forEach(desa => {
+                        this.dataDesa.push({
+                            value: desa.id,
+                            label: this.capitalize(desa.kel_nama)
+                        })
+                    })
+                }
+
+            })
+        },
         openModal: function () {
             this.isOpen = true;
         },
@@ -186,59 +200,40 @@ export default {
         },
         reset: function () {
             this.form = {
-                id_stasiun: null,
-                ch_volume: null,
-                ch_bulan: null,
-                ch_tahun: null,
+                id_kecamatan: null,
+                id_kelurahan: null,
+                kemiringan_indeks: null,
             };
-            this.tanggal = {
-                from: null,
-                to: null,
-                month: null,
-                year: null
-            }
-            this.bulan = '';
-            this.tahun = '';
         },
         save: function (data) {
-            data.ch_bulan = this.tanggal.month;
-            data.ch_tahun = this.tanggal.year;
-            this.$inertia.post('/curah-hujan', data)
+            this.$inertia.post('/kemiringan-lahan', data)
             this.reset();
             this.closeModal();
             this.editMode = false;
         },
         edit: function (data) {
             this.form = Object.assign({}, data);
-            var indexBulan = this.daftar_bulan.indexOf(data.ch_bulan);
-            this.bulan = indexBulan;
-            this.tahun = data.ch_tahun;
             this.editMode = true;
             this.openModal();
         },
         update: function (data) {
-            this.form._method = "PUT";
-            this.$inertia.post('/curah-hujan/' + data.id, {
-                id_stasiun : data.id_stasiun,
-                ch_volume : data.ch_volume,
-                ch_bulan : this.tanggal.month,
-                ch_tahun : this.tanggal.year,
-                _method : 'PUT'})
+            this.$inertia.post('/kemiringan-lahan/' + data.id, {
+                id_kecamatan: data.id_kecamatan,
+                id_kelurahan: data.id_kelurahan,
+                kemiringan_indeks: data.kemiringan_indeks,
+                _method: 'PUT'
+            })
             this.reset();
             this.closeModal();
         },
         deleteRow: function (data) {
             if (!confirm('Are you sure want to remove?')) return;
             data._method = 'DELETE';
-            this.$inertia.post('/curah-hujan/' + data.id, data)
+            this.$inertia.post('/kemiringan-lahan/' + data.id, data)
             this.reset();
             this.closeModal();
-        },
-        changeDate(date){
-            this.tanggal = date;
         }
     }
 }
 </script>
 <style src="@vueform/multiselect/themes/default.css"></style>
-

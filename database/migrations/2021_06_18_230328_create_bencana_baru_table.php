@@ -16,6 +16,7 @@ class CreateBencanaBaruTable extends Migration
         Schema::create('bencana_baru', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_jenis_bencana')->unsigned();
+            $table->bigInteger('id_kelurahan')->unsigned();
             $table->date('bb_tanggal');
             $table->string('bb_longitude');
             $table->string('bb_latitude');

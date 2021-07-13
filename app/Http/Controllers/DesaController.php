@@ -86,6 +86,9 @@ class DesaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            Kelurahan::find($id)->delete();
+            return redirect()->back();
+        }
     }
 }

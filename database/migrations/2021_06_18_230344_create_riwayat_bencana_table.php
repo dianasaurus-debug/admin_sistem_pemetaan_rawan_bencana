@@ -16,6 +16,7 @@ class CreateRiwayatBencanaTable extends Migration
         Schema::create('riwayat_bencana', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_jenis_bencana')->unsigned();
+            $table->bigInteger('id_kelurahan')->unsigned();
             $table->string('rb_kerusakan');
             $table->integer('rb_kerugian');
             $table->string('rb_longitude');

@@ -42,16 +42,21 @@
                     <jet-nav-link href="/persebaran-drainase" :active="route().current('persebaran-drainase.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Persebaran Drainase
                     </jet-nav-link>
-                    <jet-nav-link href="/pergerakan-awan-cb"  :active="route().current('pergerakan-awan-cb.index')" class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
+                    <jet-nav-link href="/pergerakan-awan-cb"  :active="route().current('pergerakan-awan-cb.index')"
+                                  class="w-full flex items-center h-10 hover:text-yellow-400 cursor-pointer border-b">
                         Pergerakan Awan CB
                     </jet-nav-link>
+                    <jet-nav-link href="/logout" class="w-full flex items-center h-10 hover:text-red-400 cursor-pointer border-b" method="post" as="button" type="button">
+                        Logout
+                    </jet-nav-link>
+
                 </div>
 
             </div>
 
             <div class="w-full bg-gray-100 pl-0 lg:pl-64 min-h-screen" :class="sideBarOpen ? 'overlay' : ''" id="main-content">
 
-                <div class="sticky top-0 z-40">
+                <div class="sticky top-0" style="z-index: unset;">
                     <div class="w-full h-20 px-6 border-b flex items-center justify-between" style="background-color : #eab543">
 
                         <!-- left navbar -->
@@ -72,34 +77,32 @@
 <!--                            <img src="https://a7sas.net/wp-content/uploads/2019/07/4060.jpeg" class="w-12 h-12 rounded-full shadow-lg" @click="dropDownOpen = !dropDownOpen">-->
 <!--                        </div>-->
                         <div class="hidden sm:flex sm:items-center sm:ml-6x">
-                            <div class="ml-3 relative">
-                                <jet-dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <button  class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
-                                            {{ $page.props.user.name }}
-                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                 fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                      d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                                      clip-rule="evenodd"/>
-                                            </svg>
-                                        </button>
-                                    </template>
+                            <div class="ml-3">
+                                <inertia-link href="/user/profile" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                    {{ $page.props.user.name }}
+                                </inertia-link>
+<!--                                <jet-dropdown align="right" width="48">-->
+<!--                                    <template #trigger>-->
+<!--                                        <button  class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">-->
+<!--                                            {{ $page.props.user.name }}-->
+<!--                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"-->
+<!--                                                 fill="currentColor">-->
+<!--                                                <path fill-rule="evenodd"-->
+<!--                                                      d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"-->
+<!--                                                      clip-rule="evenodd"/>-->
+<!--                                            </svg>-->
+<!--                                        </button>-->
+<!--                                    </template>-->
+<!--                                    <template #content>-->
+<!--                                        <jet-dropdown-link href="/user/profile">-->
+<!--                                            Profile-->
+<!--                                        </jet-dropdown-link>-->
 
-                                    <template #content>
-                                        <jet-dropdown-link href="/user/profile">
-                                            Profile
-                                        </jet-dropdown-link>
 
+<!--                                        &lt;!&ndash; Authentication &ndash;&gt;-->
 
-                                        <!-- Authentication -->
-                                        <form @submit.prevent="logout">
-                                            <jet-dropdown-link as="button">
-                                                Logout
-                                            </jet-dropdown-link>
-                                        </form>
-                                    </template>
-                                </jet-dropdown>
+<!--                                    </template>-->
+<!--                                </jet-dropdown>-->
                             </div>
                         </div>
 
@@ -112,7 +115,6 @@
                                 </svg>
                             </button>
                         </div>
-
                     </div>
 
                     <!-- dropdown menu -->
@@ -124,7 +126,7 @@
                     <!-- dropdown menu end -->
 
                 </div>
-                    <div class="ml-4 inline-block flex items-center mx-auto fixed z-50 bg-white overflow-hidden py-4 px-4 shadow-sm sm:rounded-lg " style="bottom : 84%;width: 80%">
+                <div class="ml-4 inline-block flex items-center mx-auto fixed bg-white overflow-hidden py-4 px-4 shadow-sm sm:rounded-lg header" style="bottom : 84%;width: 80%">
                         <slot name="header"></slot>
                     </div>
                 <div class="p-2 bg-gray-100 mb-20">
@@ -180,5 +182,6 @@
 .active {
     color : yellow;
 }
+
 </style>
 

@@ -104,6 +104,9 @@ class KecamatanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            Kecamatan::find($id)->delete();
+            return redirect()->back();
+        }
     }
 }

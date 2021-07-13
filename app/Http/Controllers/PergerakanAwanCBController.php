@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kecamatan;
+use App\Models\KepadatanPenduduk;
+use App\Models\PotensiAwanCb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class PergerakanAwanCBController extends Controller
 {
@@ -13,7 +18,11 @@ class PergerakanAwanCBController extends Controller
      */
     public function index()
     {
-        //
+        $potensi_awancb = PotensiAwanCb::orderBy('id', 'asc')
+            ->with('kecamatan')
+            ->paginate(7);
+        $kecamatan = Kecamatan::all();
+        return Inertia::render('PotensiAwanCB', ['potensi_awancb' => $potensi_awancb, 'kecamatan' => $kecamatan]);
     }
 
     /**
@@ -34,7 +43,15 @@ class PergerakanAwanCBController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'id_kecamatan' => ['required'],
+            'potensi_awan' => ['required'],
+        ])->validate();
+
+        PotensiAwanCb::create($request->all());
+
+        return redirect()->back()
+            ->with('message', 'Potensi Awan CB sukses dibuat.');
     }
 
     /**
@@ -68,7 +85,15 @@ class PergerakanAwanCBController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Validator::make($request->all(), [
+            'id_kecamatan' => ['required'],
+            'potensi_awan' => ['required'],
+        ])->validate();
+        if ($id) {
+            PotensiAwanCb::find($id)->update($request->all());
+            return redirect()->back()
+                ->with('message', 'Potensi awan CB sukses diupdate.');
+        }
     }
 
     /**
@@ -79,6 +104,9 @@ class PergerakanAwanCBController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            KepadatanPenduduk::find($id)->delete();
+            return redirect()->back();
+        }
     }
 }

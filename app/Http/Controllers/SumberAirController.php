@@ -107,6 +107,9 @@ class SumberAirController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            JarakSumberAir::find($id)->delete();
+            return redirect()->back();
+        }
     }
 }

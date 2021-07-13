@@ -1,16 +1,23 @@
 <template>
     <inertia-head>
-        <title>Data Curah Hujan</title>
+        <title>Data Potensi Awal CB</title>
     </inertia-head>
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Data Curah Hujan
+                Data Potensi Awal CB
             </h2>
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                    <!--                    <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-if="$page.flash.message">-->
+                    <!--                        <div class="flex">-->
+                    <!--                            <div>-->
+                    <!--                                <p class="text-sm">{{ $page.flash.message }}</p>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <button @click="openModal()"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Tambah
                         Data
@@ -19,20 +26,16 @@
                         <thead>
                         <tr class="bg-gray-100">
                             <th class="px-4 py-2 w-20">No.</th>
-                            <th class="px-4 py-2">Nama Stasiun Hujan</th>
-                            <th class="px-4 py-2">Volume</th>
-                            <th class="px-4 py-2">Bulan</th>
-                            <th class="px-4 py-2">Tahun</th>
+                            <th class="px-4 py-2">Nama Kecamatan</th>
+                            <th class="px-4 py-2">Potensi Awan</th>
                             <th class="px-4 py-2">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="row in curahhujan.data">
+                        <tr v-for="row in potensi_awancb.data">
                             <td class="border px-4 py-2">{{ row.id }}</td>
-                            <td class="border px-4 py-2">{{ row.stasiun.sh_nama }}</td>
-                            <td class="border px-4 py-2">{{ row.ch_volume }}</td>
-                            <td class="border px-4 py-2">{{ row.ch_bulan }}</td>
-                            <td class="border px-4 py-2">{{ row.ch_tahun }}</td>
+                            <td class="border px-4 py-2">{{ row.kecamatan.kec_nama }}</td>
+                            <td class="border px-4 py-2">{{ row.potensi_awan }}</td>
                             <td class="border px-4 py-2">
                                 <button @click="edit(row)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -46,7 +49,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination class="mt-6" :links="curahhujan.links"/>
+                    <pagination class="mt-6" :links="potensi_awancb.links"/>
 
                     <div class="fixed z-50 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpen">
                         <div
@@ -65,31 +68,24 @@
                                         <div class="">
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama Stasiun:</label>
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Nama
+                                                    Kecamatan:</label>
                                                 <!--                                                <div v-if="$page.errors.kec_nama" class="text-red-500">{{ $page.errors.kec_nama[0] }}</div>-->
-                                                <Multiselect v-model="form.id_stasiun"
+                                                <Multiselect v-model="form.id_kecamatan"
                                                              :searchable="true"
-                                                             :options="dataStasiun"
-                                                             placeholder="Pilih Stasiun Hujan"/>
+                                                             :options="dataKecamatan"
+                                                             placeholder="Pilih Kecamatan"/>
                                             </div>
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Volume Curah Hujan (Litre):</label>
-                                                <input type="number"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Potensi Awan CB:</label>
+                                                <input type="text"
                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                                        id="exampleFormControlInput1"
-                                                       placeholder="Masukkan Kapasitas Drainase"
-                                                       v-model="form.ch_volume">
+                                                       placeholder="Masukkan Potensi Awan CB"
+                                                       v-model="form.potensi_awan">
                                                 <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
                                             </div>
-                                            <div class="mb-4">
-                                                <label for="exampleFormControlInput1"
-                                                       class="block text-gray-700 text-sm font-bold mb-2">Tahun dan Bulan Curah Hujan :</label>
-                                                <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
-                                                <month-picker @change="changeDate" :default-month="bulan+1" :default-year="tahun" :lang="'id'"></month-picker>
-
-                                            </div>
-
                                         </div>
                                     </div>
                                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -130,48 +126,32 @@ import AppLayout from '../Layouts/AppLayout'
 import Input from "@/Jetstream/Input";
 import Pagination from '@/Components/Pagination'
 import Multiselect from '@vueform/multiselect'
-import { MonthPicker } from 'vue-month-picker';
-import { MonthPickerInput } from 'vue-month-picker';
-import moment from "moment";
-moment.locale('id');
+
 export default {
-    name: "Drainase",
+    name: "PotensiAwabCB",
     components: {
         Input,
         AppLayout,
         Pagination,
-        Multiselect,
-        MonthPicker,
-        MonthPickerInput
+        Multiselect
     },
-    props: ['curahhujan', 'stasiun_hujan', 'errors'],
+    props: ['potensi_awancb', 'kecamatan', 'errors'],
     data() {
         return {
             editMode: false,
             isOpen: false,
             form: {
-                id_stasiun: null,
-                ch_volume: null,
-                ch_bulan: null,
-                ch_tahun: null,
+                id_kecamatan: null,
+                potensi_awan: null,
             },
-            dataStasiun : [],
-            tanggal: {
-                from: null,
-                to: null,
-                month: null,
-                year: null
-            },
-            bulan : '',
-            tahun : '',
-            daftar_bulan : ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+            dataKecamatan : []
         }
     },
     created() {
-        this.stasiun_hujan.forEach(stasiun=>{
-            this.dataStasiun.push({
-                value : stasiun.id,
-                label : stasiun.sh_nama
+        this.kecamatan.forEach(kecamatan=>{
+            this.dataKecamatan.push({
+                value : kecamatan.id,
+                label : kecamatan.kec_nama
             })
         })
     },
@@ -186,56 +166,32 @@ export default {
         },
         reset: function () {
             this.form = {
-                id_stasiun: null,
-                ch_volume: null,
-                ch_bulan: null,
-                ch_tahun: null,
+                id_kecamatan: null,
+                potensi_awan: null,
             };
-            this.tanggal = {
-                from: null,
-                to: null,
-                month: null,
-                year: null
-            }
-            this.bulan = '';
-            this.tahun = '';
         },
         save: function (data) {
-            data.ch_bulan = this.tanggal.month;
-            data.ch_tahun = this.tanggal.year;
-            this.$inertia.post('/curah-hujan', data)
+            this.$inertia.post('/pergerakan-awan-cb', data)
             this.reset();
             this.closeModal();
             this.editMode = false;
         },
         edit: function (data) {
             this.form = Object.assign({}, data);
-            var indexBulan = this.daftar_bulan.indexOf(data.ch_bulan);
-            this.bulan = indexBulan;
-            this.tahun = data.ch_tahun;
             this.editMode = true;
             this.openModal();
         },
         update: function (data) {
-            this.form._method = "PUT";
-            this.$inertia.post('/curah-hujan/' + data.id, {
-                id_stasiun : data.id_stasiun,
-                ch_volume : data.ch_volume,
-                ch_bulan : this.tanggal.month,
-                ch_tahun : this.tanggal.year,
-                _method : 'PUT'})
+            this.$inertia.post('/pergerakan-awan-cb/' + data.id, {id_kecamatan : data.id_kecamatan, 	potensi_awan : data.potensi_awan, _method : 'PUT'})
             this.reset();
             this.closeModal();
         },
         deleteRow: function (data) {
             if (!confirm('Are you sure want to remove?')) return;
             data._method = 'DELETE';
-            this.$inertia.post('/curah-hujan/' + data.id, data)
+            this.$inertia.post('/pergerakan-awan-cb/' + data.id, data)
             this.reset();
             this.closeModal();
-        },
-        changeDate(date){
-            this.tanggal = date;
         }
     }
 }

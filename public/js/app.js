@@ -19962,12 +19962,16 @@ __webpack_require__.r(__webpack_exports__);
       kecamatan.desa.forEach(function (desa) {
         _this.dataDesa.push({
           value: desa.id,
-          label: desa.kel_nama
+          label: _this.capitalize(desa.kel_nama)
         });
       });
     });
   },
   methods: {
+    capitalize: function capitalize(word) {
+      var lower = word.toLowerCase();
+      return word.charAt(0).toUpperCase() + lower.slice(1);
+    },
     getDataDesa: function getDataDesa(id) {
       var _this2 = this;
 
@@ -19978,7 +19982,7 @@ __webpack_require__.r(__webpack_exports__);
           kecamatan.desa.forEach(function (desa) {
             _this2.dataDesa.push({
               value: desa.id,
-              label: desa.kel_nama
+              label: _this2.capitalize(desa.kel_nama)
             });
           });
         }
@@ -26119,7 +26123,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
   "class": "px-4 py-2"
 }, "Nama Desa"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
   "class": "px-4 py-2"
-}, "Kepadatan Penduduk"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
+}, "Kepadatan Penduduk (Jiwa/Km²)"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
   "class": "px-4 py-2"
 }, "Jumlah Penduduk"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
   "class": "px-4 py-2"
@@ -26289,14 +26293,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: function onClick($event) {
             return $options.edit(row);
           },
-          "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          "class": "bg-blue-500 hover:bg-blue-700 text-white text-sm mr-2 font-bold p-1 rounded"
         }, " Ubah Data ", 8
         /* PROPS */
         , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
           onClick: function onClick($event) {
             return $options.deleteRow(row);
           },
-          "class": "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          "class": "bg-red-500 hover:bg-red-700 text-white text-sm font-bold p-1 rounded"
         }, "Hapus Data ", 8
         /* PROPS */
         , ["onClick"])])]);
@@ -26315,14 +26319,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         searchable: true,
         options: $data.dataKecamatan,
         placeholder: "Pilih Kecamatan",
-        onChange: _cache[3] || (_cache[3] = function ($event) {
-          return $options.getDataDesa($data.form.id_kecamatan);
-        })
+        onChange: $options.getDataDesa
       }, null, 8
       /* PROPS */
-      , ["modelValue", "options"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <div v-if=\"$page.errors.kec_nama\" class=\"text-red-500\">{{ $page.errors.kec_nama[0] }}</div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Multiselect, {
+      , ["modelValue", "options", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <div v-if=\"$page.errors.kec_nama\" class=\"text-red-500\">{{ $page.errors.kec_nama[0] }}</div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Multiselect, {
         modelValue: $data.form.id_kelurahan,
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           return $data.form.id_kelurahan = $event;
         }),
         searchable: true,
@@ -26336,7 +26338,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
         id: "exampleFormControlInput1",
         placeholder: "Masukkan Kepadatan Penduduk",
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           return $data.form.kepadatan_penduduk = $event;
         })
       }, null, 512
@@ -26346,7 +26348,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
         id: "exampleFormControlInput1",
         placeholder: "Masukkan Jumlah Penduduk",
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $data.form.jumlah_penduduk = $event;
         })
       }, null, 512
@@ -26356,7 +26358,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
         id: "exampleFormControlInput1",
         placeholder: "Masukkan Kepadatan Jumlah Penduduk",
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
           return $data.form.kepadatan_tahun = $event;
         })
       }, null, 512
@@ -26365,7 +26367,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "wire:click.prevent": "store()",
         type: "button",
         "class": "inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5",
-        onClick: _cache[8] || (_cache[8] = function ($event) {
+        onClick: _cache[7] || (_cache[7] = function ($event) {
           return $options.save($data.form);
         })
       }, " Simpan ", 512
@@ -26374,13 +26376,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "wire:click.prevent": "store()",
         type: "button",
         "class": "inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5",
-        onClick: _cache[9] || (_cache[9] = function ($event) {
+        onClick: _cache[8] || (_cache[8] = function ($event) {
           return $options.update($data.form);
         })
       }, " Update ", 512
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.editMode]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-        onClick: _cache[10] || (_cache[10] = function ($event) {
+        onClick: _cache[9] || (_cache[9] = function ($event) {
           return $options.closeModal();
         }),
         type: "button",

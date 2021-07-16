@@ -20,7 +20,7 @@
                         <tr class="bg-gray-100">
                             <th class="px-4 py-2 w-20">No.</th>
                             <th class="px-4 py-2">Nama Desa</th>
-                            <th class="px-4 py-2">Kepadatan Penduduk</th>
+                            <th class="px-4 py-2">Kepadatan Penduduk (Jiwa/Km²)</th>
                             <th class="px-4 py-2">Jumlah Penduduk</th>
                             <th class="px-4 py-2">Tahun Kepadatan</th>
                             <th class="px-4 py-2">Aksi</th>
@@ -35,11 +35,11 @@
                             <td class="border px-4 py-2">{{ row.kepadatan_tahun }}</td>
                             <td class="border px-4 py-2">
                                 <button @click="edit(row)"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        class="bg-blue-500 hover:bg-blue-700 text-white text-sm mr-2 font-bold p-1 rounded">
                                     Ubah Data
                                 </button>
                                 <button @click="deleteRow(row)"
-                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus
+                                        class="bg-red-500 hover:bg-red-700 text-white text-sm font-bold p-1 rounded">Hapus
                                     Data
                                 </button>
                             </td>
@@ -71,7 +71,7 @@
                                                 <Multiselect v-model="form.id_kecamatan"
                                                              :searchable="true"
                                                              :options="dataKecamatan"
-                                                             placeholder="Pilih Kecamatan" @change="getDataDesa(form.id_kecamatan)"/>
+                                                             placeholder="Pilih Kecamatan" @change="getDataDesa"/>
                                             </div>
                                             <div class="mb-4">
                                                 <label for="exampleFormControlInput1"
@@ -192,12 +192,17 @@ export default {
             kecamatan.desa.forEach(desa => {
                 this.dataDesa.push({
                     value: desa.id,
-                    label: desa.kel_nama
+                    label: this.capitalize(desa.kel_nama)
                 })
             })
         })
+
     },
     methods: {
+        capitalize(word) {
+            const lower = word.toLowerCase();
+            return word.charAt(0).toUpperCase() + lower.slice(1);
+        },
         getDataDesa(id) {
             this.form.id_kelurahan = null;
             this.dataDesa = [];
@@ -206,7 +211,7 @@ export default {
                     kecamatan.desa.forEach(desa => {
                         this.dataDesa.push({
                             value: desa.id,
-                            label: desa.kel_nama
+                            label: this.capitalize(desa.kel_nama)
                         })
                     })
                 }

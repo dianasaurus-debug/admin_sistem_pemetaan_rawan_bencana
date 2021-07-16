@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\SOPController;
 use App\Http\Controllers\API\RiwayatBencanaController;
+use App\Http\Controllers\API\PerkiraanBencanaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,3 +31,4 @@ Route::prefix('riwayat-bencana')->group(function () {
     Route::get('/puting-beliung', [RiwayatBencanaController::class, 'riwayat_puting_beliung']);
     Route::get('/kekeringan', [RiwayatBencanaController::class, 'riwayat_kekeringan']);
 });
+Route::get('/rawan/banjir', [PerkiraanBencanaController::class, 'daftar_desa_rawan_banjir']);

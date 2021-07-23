@@ -17,9 +17,14 @@ class CurahHujanController extends Controller
      */
     public function index()
     {
-        $curahhujan = CurahHujan::orderBy('id', 'asc')
-            ->with('stasiun')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $curahhujan = CurahHujan::whereHas('stasiun', function ($q){
+                $q->where('sh_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->latest()->with('stasiun')->paginate(7)->appends(request()->query());
+        } else {
+            $curahhujan = CurahHujan::latest()->with('stasiun')->paginate(7);
+        }
         $stasiun_hujan = StasiunHujan::all();
         return Inertia::render('CurahHujan', ['curahhujan' => $curahhujan, 'stasiun_hujan' => $stasiun_hujan]);
     }

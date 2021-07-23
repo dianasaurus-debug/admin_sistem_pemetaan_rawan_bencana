@@ -14,7 +14,16 @@ class Kelurahan extends Model
     public function kecamatan(){
         return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id');
     }
+    public function riwayat_bencana(){
+        return $this->hasMany(RiwayatBencana::class, 'id_kelurahan', 'id');
+    }
+    public function jarak_sumber(){
+        return $this->hasOne(JarakSumberAir::class, 'id_kelurahan', 'id');
+    }
+    public function kemiringan_lahan(){
+        return $this->hasOne(KemiringanLahan::class, 'id_kelurahan', 'id');
+    }
     public function kepadatan_penduduk(){
-        return $this->hasOne(KepadatanPenduduk::class, 'id_kecamatan', 'id');
+        return $this->hasOne(KepadatanPenduduk::class, 'id_kelurahan', 'id');
     }
 }

@@ -9,11 +9,12 @@
             </h2>
         </template>
         <div class="py-12">
-            <select class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2" v-model="chosenBencana">
-                <option class="py-1" v-for="bencana in dataJenisBencana"  v-bind:value="bencana.idBencana">{{bencana.judulBencana}}</option>
-            </select>
+
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                    <select class="w-1/3 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" v-model="chosenBencana">
+                        <option class="py-1" v-for="bencana in dataJenisBencana"  v-bind:value="bencana.idBencana">{{bencana.judulBencana}}</option>
+                    </select>
                     <div class="grid grid-cols-3 gap-4">
                     <div>
                         <p class="flex">

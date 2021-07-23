@@ -17,10 +17,14 @@ class SumberAirController extends Controller
      */
     public function index()
     {
-        $jarak_sumberair = JarakSumberAir::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->with('desa')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $jarak_sumberair = JarakSumberAir::whereHas('desa', function ($q){
+                $q->where('kel_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->latest()->with('kecamatan')->with('desa')->paginate(7)->appends(request()->query());
+        } else {
+            $jarak_sumberair = JarakSumberAir::latest()->with('kecamatan')->with('desa')->paginate(7);
+        }
         $kecamatan = Kecamatan::with('desa')->get();
 
         return Inertia::render('JarakSumberAir', ['jarak_sumberair' => $jarak_sumberair, 'kecamatan' => $kecamatan]);

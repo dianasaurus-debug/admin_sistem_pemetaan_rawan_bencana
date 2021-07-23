@@ -16,9 +16,14 @@ class DesaController extends Controller
      */
     public function index()
     {
-        $desa = Kelurahan::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $desa = Kelurahan::where(
+                'kel_nama', 'like',
+                '%' . request()->query('cari') . '%'
+            )->latest()->with('kecamatan')->paginate(7)->appends(request()->query());
+        } else {
+            $desa = Kelurahan::latest()->with('kecamatan')->paginate(7);
+        }
         $kecamatan = Kecamatan::all();
         return Inertia::render('Desa', ['desa' => $desa, 'kecamatan' => $kecamatan]);
     }

@@ -17,10 +17,14 @@ class KepadatanPendudukController extends Controller
      */
     public function index()
     {
-        $kepadatan_penduduk = KepadatanPenduduk::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->with('desa')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $kepadatan_penduduk = KepadatanPenduduk::whereHas('desa', function ($q){
+                $q->where('kel_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->latest()->with('kecamatan')->with('desa')->paginate(7)->appends(request()->query());
+        } else {
+            $kepadatan_penduduk = KepadatanPenduduk::latest()->with('kecamatan')->with('desa')->paginate(7);
+        }
         $kecamatan = Kecamatan::with('desa')->get();
 
         return Inertia::render('KepadatanPenduduk', ['kepadatan_penduduk' => $kepadatan_penduduk, 'kecamatan' => $kecamatan]);

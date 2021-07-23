@@ -16,8 +16,14 @@ class KecamatanController extends Controller
      */
     public function index()
     {
-        $kecamatan = Kecamatan::orderBy('id', 'asc')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $kecamatan = Kecamatan::where(
+                'kec_nama', 'like',
+                '%' . request()->query('cari') . '%'
+            )->latest()->paginate(7)->appends(request()->query());
+        } else {
+            $kecamatan = Kecamatan::latest()->paginate(7);
+        }
         return Inertia::render('Kecamatan', ['kecamatan' => $kecamatan]);
     }
 

@@ -17,10 +17,14 @@ class KemiringanLahanController extends Controller
      */
     public function index()
     {
-        $kemiringan_lahan = KemiringanLahan::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->with('desa')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $kemiringan_lahan = KemiringanLahan::whereHas('desa', function ($q){
+                $q->where('kel_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->latest()->with('kecamatan')->with('desa')->paginate(7)->appends(request()->query());
+        } else {
+            $kemiringan_lahan = KemiringanLahan::latest()->with('kecamatan')->with('desa')->paginate(7);
+        }
         $kecamatan = Kecamatan::with('desa')->get();
 
         return Inertia::render('KemiringanLahan', ['kemiringan_lahan' => $kemiringan_lahan, 'kecamatan' => $kecamatan]);

@@ -45,4 +45,14 @@ class RiwayatBencanaController extends Controller
         ];
         return response()->json($response, 200);
     }
+    public function indexByYear($year, $jenis_bencana)
+    {
+        $riwayat_bencana = RiwayatBencana::where('rb_tahun', $year)
+            ->where('id_jenis_bencana', $jenis_bencana)
+            ->get();
+        $response = [
+            'riwayat_bencana' => RiwayatBencanaResource::collection($riwayat_bencana)
+        ];
+        return response()->json($response, 200);
+    }
 }

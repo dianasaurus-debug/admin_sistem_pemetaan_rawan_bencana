@@ -17,9 +17,15 @@ class StasiunHujanController extends Controller
      */
     public function index()
     {
-        $stasiun_hujan = StasiunHujan::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $stasiun_hujan = StasiunHujan::whereHas('kecamatan', function ($q){
+                $q->where('kec_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->orWhere('sh_nama', 'like',
+                '%' . request()->query('cari') . '%')->latest()->with('kecamatan')->paginate(7)->appends(request()->query());
+        } else {
+            $stasiun_hujan = StasiunHujan::latest()->with('kecamatan')->paginate(7);
+        }
         $kecamatan = Kecamatan::all();
         return Inertia::render('StasiunHujan', ['stasiun_hujan' => $stasiun_hujan, 'kecamatan' => $kecamatan]);
 

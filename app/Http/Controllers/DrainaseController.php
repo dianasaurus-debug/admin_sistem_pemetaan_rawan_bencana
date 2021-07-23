@@ -17,9 +17,14 @@ class DrainaseController extends Controller
      */
     public function index()
     {
-        $drainase = Drainase::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $drainase = Drainase::whereHas('kecamatan', function ($q){
+                $q->where('kec_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->latest()->with('kecamatan')->paginate(7)->appends(request()->query());
+        } else {
+            $drainase = Drainase::latest()->with('kecamatan')->paginate(7);
+        }
         $kecamatan = Kecamatan::all();
         return Inertia::render('Drainase', ['drainase' => $drainase, 'kecamatan' => $kecamatan]);
     }

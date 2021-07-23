@@ -18,9 +18,14 @@ class PergerakanAwanCBController extends Controller
      */
     public function index()
     {
-        $potensi_awancb = PotensiAwanCb::orderBy('id', 'asc')
-            ->with('kecamatan')
-            ->paginate(7);
+        if (request()->query('cari')) {
+            $potensi_awancb = PotensiAwanCb::whereHas('kecamatan', function ($q){
+                $q->where('kec_nama', 'like',
+                    '%' . request()->query('cari') . '%');
+            })->latest()->with('kecamatan')->paginate(7)->appends(request()->query());
+        } else {
+            $potensi_awancb = PotensiAwanCb::latest()->with('kecamatan')->paginate(7);
+        }
         $kecamatan = Kecamatan::all();
         return Inertia::render('PotensiAwanCB', ['potensi_awancb' => $potensi_awancb, 'kecamatan' => $kecamatan]);
     }

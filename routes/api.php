@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\SOPController;
 use App\Http\Controllers\API\RiwayatBencanaController;
 use App\Http\Controllers\API\PerkiraanBencanaController;
+use App\Http\Controllers\API\BencanaBaruController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,5 +32,18 @@ Route::prefix('riwayat-bencana')->group(function () {
     Route::get('/longsor', [RiwayatBencanaController::class, 'riwayat_longsor']);
     Route::get('/puting-beliung', [RiwayatBencanaController::class, 'riwayat_puting_beliung']);
     Route::get('/kekeringan', [RiwayatBencanaController::class, 'riwayat_kekeringan']);
+    Route::get('/{year}/{jenis_bencana}', [RiwayatBencanaController::class, 'indexByYear']);
+
 });
-Route::get('/rawan/banjir', [PerkiraanBencanaController::class, 'daftar_desa_rawan_banjir']);
+Route::prefix('bencana-baru')->group(function () {
+    Route::get('/banjir', [BencanaBaruController::class, 'bencana_baru_banjir']);
+    Route::get('/longsor', [BencanaBaruController::class, 'bencana_baru_longsor']);
+    Route::get('/puting-beliung', [BencanaBaruController::class, 'bencana_baru_puting_beliung']);
+    Route::get('/kekeringan', [BencanaBaruController::class, 'bencana_baru_kekeringan']);
+});
+Route::prefix('lokasi-rawan')->group(function () {
+    Route::get('/banjir', [PerkiraanBencanaController::class, 'daftar_desa_rawan_banjir']);
+    Route::get('/longsor', [PerkiraanBencanaController::class, 'daftar_desa_rawan_longsor']);
+    Route::get('/puting-beliung', [PerkiraanBencanaController::class, 'daftar_desa_rawan_putbel']);
+    Route::get('/kekeringan', [PerkiraanBencanaController::class, 'daftar_desa_rawan_kekeringan']);
+});

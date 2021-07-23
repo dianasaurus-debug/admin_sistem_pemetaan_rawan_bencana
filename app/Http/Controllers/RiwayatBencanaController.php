@@ -19,12 +19,22 @@ class RiwayatBencanaController extends Controller
      */
     public function index()
     {
-        $bencana_baru = BencanaBaru::orderBy('id', 'asc')
-            ->with('bencana', 'desa')
-            ->paginate(2);
-        $riwayat_bencana = RiwayatBencana::orderBy('id', 'asc')
-            ->with('bencana', 'desa')
-            ->paginate(3);
+        if (request()->query('cari_baru')) {
+            $bencana_baru = BencanaBaru::whereHas('desa', function ($q){
+                $q->where('kel_nama', 'like',
+                    '%' . request()->query('cari_baru') . '%');
+            })->latest()->with('bencana')->with('desa')->paginate(2)->appends(request()->query());
+            $riwayat_bencana = RiwayatBencana::latest()->with('bencana')->with('desa')->paginate(3);
+        } else if(request()->query('cari_lama')) {
+            $riwayat_bencana = RiwayatBencana::whereHas('desa', function ($q){
+                $q->where('kel_nama', 'like',
+                    '%' . request()->query('cari_lama') . '%');
+            })->latest()->with('bencana')->with('desa')->paginate(3)->appends(request()->query());
+            $bencana_baru = BencanaBaru::latest()->with('bencana')->with('desa')->paginate(2);
+        } else {
+            $riwayat_bencana = RiwayatBencana::latest()->with('bencana')->with('desa')->paginate(3);
+            $bencana_baru = BencanaBaru::latest()->with('bencana')->with('desa')->paginate(2);
+        }
         $data_desa = Kelurahan::all();
         $jenis_bencana = JenisBencana::all();
         return Inertia::render('RiwayatBencana', ['riwayat_bencana' => $riwayat_bencana, 'bencana_baru' => $bencana_baru, 'data_desa' => $data_desa, 'jenis_bencana' => $jenis_bencana]);

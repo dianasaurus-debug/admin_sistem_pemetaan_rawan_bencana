@@ -12,7 +12,10 @@ class Kecamatan extends Model
 
     use HasFactory;
     public function drainase(){
-        return $this->hasMany(DetailSop::class, 'id_kecamatan', 'id');
+        return $this->hasOne(Drainase::class, 'id_kecamatan', 'id');
+    }
+    public function stasiun_hujan(){
+        return $this->hasOne(StasiunHujan::class, 'id_kecamatan', 'id');
     }
     public function desa(){
         return $this->hasMany(Kelurahan::class, 'id_kecamatan', 'id');

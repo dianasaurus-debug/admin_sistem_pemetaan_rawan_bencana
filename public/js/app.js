@@ -19337,22 +19337,22 @@ __webpack_require__.r(__webpack_exports__);
         'label': 'Peta Riwayat Longsor'
       }, {
         'id': 5,
-        'label': 'Peta Riwayat Longsor 2015'
-      }, {
-        'id': 7,
         'label': 'Peta Riwayat Longsor 2016'
       }, {
-        'id': 8,
+        'id': 6,
         'label': 'Peta Riwayat Longsor 2017'
       }, {
-        'id': 9,
+        'id': 7,
         'label': 'Peta Riwayat Longsor 2018'
       }, {
-        'id': 10,
+        'id': 8,
         'label': 'Peta Riwayat Longsor 2019'
       }, {
-        'id': 11,
+        'id': 9,
         'label': 'Peta Riwayat Longsor 2020'
+      }, {
+        'id': 10,
+        'label': 'Peta Riwayat Longsor 2021'
       }],
       dataJenisPeta: [],
       peta: 1,
@@ -19360,8 +19360,27 @@ __webpack_require__.r(__webpack_exports__);
       costumIcon: leaflet__WEBPACK_IMPORTED_MODULE_5___default().icon({
         iconUrl: '/images/vendor/leaflet/dist/marker-icon.png'
       }),
+      dangerIcon: leaflet__WEBPACK_IMPORTED_MODULE_5___default().icon({
+        iconUrl: '/images/vendor/leaflet/dist/red-marker.png',
+        iconSize: [30, 30]
+      }),
+      modIcon: leaflet__WEBPACK_IMPORTED_MODULE_5___default().icon({
+        iconUrl: '/images/vendor/leaflet/dist/orange-marker.png',
+        iconSize: [30, 30]
+      }),
+      lowIcon: leaflet__WEBPACK_IMPORTED_MODULE_5___default().icon({
+        iconUrl: '/images/vendor/leaflet/dist/green-marker.png',
+        iconSize: [30, 30]
+      }),
       mapDiv: null,
-      riwayat_bencana: []
+      riwayat_bencana: [],
+      tahun2016: [],
+      tahun2017: [],
+      tahun2018: [],
+      tahun2019: [],
+      tahun2020: [],
+      tahun2021: [],
+      rawan_longsor: []
     };
   },
   props: ['kecamatan', 'desa', 'errors'],
@@ -19391,12 +19410,69 @@ __webpack_require__.r(__webpack_exports__);
             'label': data.kel_nama
           });
         });
+      } else if (this.peta == 3) {
+        this.rawan_longsor.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa,
+            'status': data.status
+          });
+        });
       } else if (this.peta == 4) {
         this.riwayat_bencana.forEach(function (data) {
           peta_array.push({
             'latitude': data.latitude,
             'longitude': data.longitude,
-            'label': data.kecamatan
+            'label': data.desa
+          });
+        });
+      } else if (this.peta == 5) {
+        this.tahun2016.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa
+          });
+        });
+      } else if (this.peta == 6) {
+        this.tahun2017.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa
+          });
+        });
+      } else if (this.peta == 7) {
+        this.tahun2018.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa
+          });
+        });
+      } else if (this.peta == 8) {
+        this.tahun2019.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa
+          });
+        });
+      } else if (this.peta == 9) {
+        this.tahun2020.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa
+          });
+        });
+      } else if (this.peta == 10) {
+        this.tahun2021.forEach(function (data) {
+          peta_array.push({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'label': data.desa
           });
         });
       }
@@ -19410,7 +19486,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    this.getAllRiwayatTahun();
     this.getAllRiwayat();
+    this.getAllRawan();
     var k = 1;
     this.jenis_peta.forEach(function (jenis_peta) {
       _this.dataJenisPeta.push({
@@ -19420,7 +19498,6 @@ __webpack_require__.r(__webpack_exports__);
 
       k++;
     });
-    console.log(this.jenis_peta);
   },
   methods: {
     getAllRiwayat: function getAllRiwayat() {
@@ -19430,8 +19507,37 @@ __webpack_require__.r(__webpack_exports__);
         _this2.riwayat_bencana = result.data.riwayat_bencana;
       });
     },
-    setupLeafletMap: function setupLeafletMap() {
+    getAllRawan: function getAllRawan() {
       var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/lokasi-rawan/longsor').then(function (result) {
+        _this3.rawan_longsor = result.data.bencana_rawan;
+      });
+    },
+    getAllRiwayatTahun: function getAllRiwayatTahun() {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/riwayat-bencana/2016/2").then(function (result) {
+        _this4.tahun2016 = result.data.riwayat_bencana;
+      });
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/riwayat-bencana/2017/2").then(function (result) {
+        _this4.tahun2017 = result.data.riwayat_bencana;
+      });
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/riwayat-bencana/2018/2").then(function (result) {
+        _this4.tahun2018 = result.data.riwayat_bencana;
+      });
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/riwayat-bencana/2019/2").then(function (result) {
+        _this4.tahun2019 = result.data.riwayat_bencana;
+      });
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/riwayat-bencana/2020/2").then(function (result) {
+        _this4.tahun2020 = result.data.riwayat_bencana;
+      });
+      axios__WEBPACK_IMPORTED_MODULE_6___default().get("/api/riwayat-bencana/2021/2").then(function (result) {
+        _this4.tahun2021 = result.data.riwayat_bencana;
+      });
+    },
+    setupLeafletMap: function setupLeafletMap() {
+      var _this5 = this;
 
       if (this.mapDiv) {
         this.mapDiv.remove();
@@ -19444,9 +19550,25 @@ __webpack_require__.r(__webpack_exports__);
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.mapDiv);
       this.data_peta.forEach(function (data) {
-        leaflet__WEBPACK_IMPORTED_MODULE_5___default().marker([parseFloat(data.latitude), parseFloat(data.longitude)], {
-          icon: _this3.costumIcon
-        }).bindPopup("".concat(data.label)).addTo(_this3.mapDiv);
+        if (data.status != null) {
+          if (data.status == 0) {
+            leaflet__WEBPACK_IMPORTED_MODULE_5___default().marker([parseFloat(data.latitude), parseFloat(data.longitude)], {
+              icon: _this5.lowIcon
+            }).bindPopup("".concat(data.label, " | Status Kerawanan Rendah")).addTo(_this5.mapDiv);
+          } else if (data.status == 1) {
+            leaflet__WEBPACK_IMPORTED_MODULE_5___default().marker([parseFloat(data.latitude), parseFloat(data.longitude)], {
+              icon: _this5.modIcon
+            }).bindPopup("".concat(data.label, " | Status Kerawanan Sedang")).addTo(_this5.mapDiv);
+          } else if (data.status == 2) {
+            leaflet__WEBPACK_IMPORTED_MODULE_5___default().marker([parseFloat(data.latitude), parseFloat(data.longitude)], {
+              icon: _this5.dangerIcon
+            }).bindPopup("".concat(data.label, " | Status Kerawanan Tinggi")).addTo(_this5.mapDiv);
+          }
+        } else {
+          leaflet__WEBPACK_IMPORTED_MODULE_5___default().marker([parseFloat(data.latitude), parseFloat(data.longitude)], {
+            icon: _this5.costumIcon
+          }).bindPopup("".concat(data.label)).addTo(_this5.mapDiv);
+        }
       });
     }
   },
@@ -19549,7 +19671,9 @@ __webpack_require__.r(__webpack_exports__);
     update: function update(data) {
       this.$inertia.post('/kelurahan/' + data.id, {
         id_kecamatan: data.id_kecamatan,
-        kapasitas_drainase: data.kapasitas_drainase,
+        kel_nama: data.kel_nama,
+        kel_latitude: data.kel_latitude,
+        kel_longitude: data.kel_longitude,
         _method: 'PUT'
       });
       this.reset();
@@ -21614,10 +21738,7 @@ var _hoisted_1 = {
   "class": "font-extrabold text-black"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-  src: "/assets/images/logo-autentikasi.png",
-  "class": "object-fill w-24"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", {
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
   "class": "mt-2 text-center"
 }, "EWARN BOJONEGORO")], -1
 /* HOISTED */

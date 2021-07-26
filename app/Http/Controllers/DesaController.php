@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kelurahan;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class DesaController extends Controller
@@ -46,7 +47,17 @@ class DesaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'id_kecamatan' => ['required'],
+            'kel_nama' => ['required'],
+            'kel_latitude' => ['required'],
+            'kel_longitude' => ['required'],
+        ])->validate();
+
+        Kelurahan::create($request->all());
+
+        return redirect()->back()
+            ->with('message', 'Kelurahan sukses dibuat.');
     }
 
     /**
@@ -80,7 +91,18 @@ class DesaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Validator::make($request->all(), [
+            'id_kecamatan' => ['required'],
+            'kel_nama' => ['required'],
+            'kel_latitude' => ['required'],
+            'kel_longitude' => ['required'],
+        ])->validate();
+
+        if ($id) {
+            Kelurahan::find($id)->update($request->all());
+            return redirect()->back()
+                ->with('message', 'Kelurahan sukses diupdate.');
+        }
     }
 
     /**

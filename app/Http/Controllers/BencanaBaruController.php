@@ -145,6 +145,9 @@ class BencanaBaruController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            BencanaBaru::find($id)->delete();
+            return redirect('/riwayat-bencana');
+        }
     }
 }

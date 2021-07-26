@@ -21,7 +21,7 @@ class LongsorResource extends JsonResource
         for($i=0;$i<count($curah_hujan);$i++){
             array_push($new_curah_hujan, $curah_hujan[$i]->ch_volume);
         }
-        $total_curah_hujan = array_sum($new_curah_hujan);
+        $total_curah_hujan =  array_sum($new_curah_hujan);
 
         return [
             'id' => $this->id,

@@ -46,7 +46,6 @@ class KecamatanController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'id_kecamatan' => ['required'],
             'kec_nama' => ['required'],
             'kec_latitude' => ['required'],
             'kec_longitude' => ['required'],
@@ -89,7 +88,6 @@ class KecamatanController extends Controller
     public function update(Request $request, $id)
     {
         Validator::make($request->all(), [
-            'id_kecamatan' => ['required'],
             'kec_nama' => ['required'],
             'kec_latitude' => ['required'],
             'kec_longitude' => ['required'],

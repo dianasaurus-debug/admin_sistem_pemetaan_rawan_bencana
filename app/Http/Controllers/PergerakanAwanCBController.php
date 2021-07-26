@@ -110,7 +110,7 @@ class PergerakanAwanCBController extends Controller
     public function destroy($id)
     {
         if ($id) {
-            KepadatanPenduduk::find($id)->delete();
+            PotensiAwanCb::find($id)->delete();
             return redirect()->back();
         }
     }

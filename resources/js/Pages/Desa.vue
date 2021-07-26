@@ -241,7 +241,13 @@ export default {
             this.openModal();
         },
         update: function (data) {
-            this.$inertia.post('/kelurahan/' + data.id, {id_kecamatan : data.id_kecamatan, kapasitas_drainase : data.kapasitas_drainase, _method : 'PUT'})
+            this.$inertia.post('/kelurahan/' + data.id, {
+                id_kecamatan : data.id_kecamatan,
+                kel_nama : data.kel_nama,
+                kel_latitude : data.kel_latitude,
+                kel_longitude : data.kel_longitude,
+                _method : 'PUT'}
+                )
             this.reset();
             this.closeModal();
         },

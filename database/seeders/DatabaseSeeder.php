@@ -22,8 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(JenisBencanaSeeder::class);
 
-
-
+        $this->call(CurahHujanSeeder::class);
+        $this->call(JarakSumberSeeder::class);
+        $this->call(KemiringanLahanSeeder::class);
+        $this->call(KepadatanPendudukSeeder::class);
+        $this->call(StasiunHujanSeeder::class);
 
     }
 }

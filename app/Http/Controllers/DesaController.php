@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\KekeringanResource;
+use App\Http\Resources\LongsorResource;
+use App\Http\Resources\PutingBeliungResource;
+use App\Http\Resources\RawanBanjirResource;
 use App\Models\Kelurahan;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
@@ -21,7 +25,7 @@ class DesaController extends Controller
             $desa = Kelurahan::where(
                 'kel_nama', 'like',
                 '%' . request()->query('cari') . '%'
-            )->latest()->with('kecamatan')->paginate(7)->appends(request()->query());
+            )->latest()->with('kecamatan')->paginate(7);
         } else {
             $desa = Kelurahan::latest()->with('kecamatan')->paginate(7);
         }
@@ -117,5 +121,51 @@ class DesaController extends Controller
             Kelurahan::find($id)->delete();
             return redirect()->back();
         }
+    }
+    public function getStatusBanjir($id)
+    {
+        $kelurahan = Kelurahan::where(['id' => $id])->with('kecamatan.stasiun_hujan.curah_hujan')
+            ->with(['riwayat_bencana' => function ($query)  {
+                $query->where(['id_jenis_bencana' => 1]);
+            }])
+            ->with('kecamatan.drainase')
+            ->with('kepadatan_penduduk')
+            ->first();
+        $response = new RawanBanjirResource($kelurahan);
+        return response()->json($response, 200);
+    }
+    public function getStatusLongsor($id)
+    {
+        $kelurahan = Kelurahan::where(['id' => $id])->with('kecamatan.stasiun_hujan.curah_hujan')
+            ->with(['riwayat_bencana' => function ($query)  {
+                $query->where(['id_jenis_bencana' => 2]);
+            }])
+            ->with('kemiringan_lahan')
+            ->first();
+        $response =  new LongsorResource($kelurahan);
+        return response()->json($response, 200);
+    }
+
+    public function getStatusKekeringan($id)
+    {
+        $kelurahan = Kelurahan::where(['id' => $id])->with(['riwayat_bencana' => function ($query)  {
+            $query->where(['id_jenis_bencana' => 3]);
+        }])
+            ->with('jarak_sumber')
+            ->with('kepadatan_penduduk')
+            ->first();
+        $response = new KekeringanResource($kelurahan);
+        return response()->json($response, 200);
+    }
+    public function getStatusPutbel($id)
+    {
+        $kelurahan = Kelurahan::where(['id' => $id])->with('kecamatan.stasiun_hujan.curah_hujan')
+            ->with(['riwayat_bencana' => function ($query)  {
+                $query->where(['id_jenis_bencana' => 4]);
+            }])
+            ->with('kepadatan_penduduk')
+            ->first();
+        $response = new PutingBeliungResource($kelurahan);
+        return response()->json($response, 200);
     }
 }

@@ -46,7 +46,7 @@
                 jenis_peta : [
                     {
                         'id' : 1,
-                        'label' : 'Peta Kecamatan',
+                        'label' : 'Peta Rawan Longsor',
                     },
                     {
                         'id' : 2,
@@ -113,7 +113,8 @@
                     tahun2019 : [],
                     tahun2020 : [],
                     tahun2021 : [],
-                rawan_longsor : []
+                rawan_longsor : [],
+                data_gjson : null,
 
             }
         },
@@ -235,6 +236,7 @@
                 })
                 k++;
             })
+
         },
         methods : {
             getAllRiwayat(){
@@ -279,27 +281,94 @@
                 } else {
                     this.mapDiv = new L.map("mapContainer").setView([parseFloat(this.center[0]), parseFloat(this.center[1])], 13);
                 }
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(this.mapDiv);
-
-                this.data_peta.forEach(data=>{
-                    if (data.status!=null) {
-                        if(data.status==0){
-                            L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.lowIcon}).bindPopup(`${data.label} | Status Kerawanan Rendah`).addTo(this.mapDiv)
-                        } else if(data.status==1){
-                            L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.modIcon}).bindPopup(`${data.label} | Status Kerawanan Sedang`).addTo(this.mapDiv)
-                        } else if(data.status==2){
-                            L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.dangerIcon}).bindPopup(`${data.label} | Status Kerawanan Tinggi`).addTo(this.mapDiv)
-                        }
-                    } else {
-                        L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.costumIcon}).bindPopup(`${data.label}`).addTo(this.mapDiv)
-
+                const data_daerah = [
+                    {
+                        daerah : "Mojodelik",
+                        status : 1
+                    },
+                    {
+                        daerah : "Gadon",
+                        status : 2
+                    },
+                    {
+                        daerah : "Ngloram",
+                        status : 1
+                    },
+                    {
+                        daerah : "Payaman",
+                        status : 2
+                    },
+                    {
+                        daerah : "Bendonglateng",
+                        status : 1
+                    },
+                    {
+                        daerah : "Jamprong",
+                        status : 2
+                    },
+                    {
+                        daerah : "Bancer",
+                        status : 1
                     }
-                })
+                ];
+                /*Legend specific*/
+                var legend = L.control({ position: "bottomleft" });
+
+                legend.onAdd = function(map) {
+                    var div = L.DomUtil.create("div", "legend");
+                    div.innerHTML += "<h4>Tingkat Kerawanan Bencana</h4>";
+                    div.innerHTML += '<i style="background: red"></i><span>Tinggi</span><br>';
+                    div.innerHTML += '<i style="background: yellow"></i><span>Sedang</span><br>';
+                    div.innerHTML += '<i style="background: green"></i><span>Rendah</span><br>';
+                    return div;
+                };
+                L.geoJSON(this.data_gjson, {
+                    style : {fillColor: 'green',
+                        weight: 2,
+                        opacity: 1,
+                        color: 'white',  //Outline color
+                        fillOpacity: 0.7},
+                    onEachFeature: function(feature, layer) {
+                        // layer.bindTooltip(feature.properties.NAMOBJ, {permanent:true,direction:'center', className: 'countryLabel',sticky: true});
+                            data_daerah.forEach(data=>{
+                                if(feature.properties.NAMOBJ==data.daerah){
+                                    if(data.status==1){
+                                        layer.setStyle({fillColor: 'yellow'})
+                                        layer.bindPopup('<h3>Desa : '+feature.properties.NAMOBJ+'</h3><p>Status: <b class="text-warning">Sedang</b></p>');
+                                    } else if(data.status==2){
+                                        layer.setStyle({fillColor: 'red'})
+                                        layer.bindPopup('<h3>Desa : '+feature.properties.NAMOBJ+'</h3><p>Status: <b>Tinggi</b></p>');
+                                    } else {
+                                        layer.bindPopup('<h3>Desa : '+feature.properties.NAMOBJ+'</h3><p>Status: <b>Rendah</b></p>');
+                                    }
+                                }
+                        });
+                    }
+                }).addTo(this.mapDiv);
+                legend.addTo(this.mapDiv);
+                // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                // }).addTo(this.mapDiv);
+                //
+                // this.data_peta.forEach(data=>{
+                //     if (data.status!=null) {
+                //         if(data.status==0){
+                //             L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.lowIcon}).bindPopup(`${data.label} | Status Kerawanan Rendah`).addTo(this.mapDiv)
+                //         } else if(data.status==1){
+                //             L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.modIcon}).bindPopup(`${data.label} | Status Kerawanan Sedang`).addTo(this.mapDiv)
+                //         } else if(data.status==2){
+                //             L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.dangerIcon}).bindPopup(`${data.label} | Status Kerawanan Tinggi`).addTo(this.mapDiv)
+                //         }
+                //     } else {
+                //         L.marker([parseFloat(data.latitude), parseFloat(data.longitude)], {icon : this.costumIcon}).bindPopup(`${data.label}`).addTo(this.mapDiv)
+                //
+                //     }
+                // })
             },
         },
-        mounted() {
+        async mounted() {
+            const response = await fetch(window.location.origin+'/maps/wilayah_bojonegoro.json');
+            this.data_gjson = await response.json();
             this.setupLeafletMap();
         }
     }
@@ -311,5 +380,9 @@
     height: 80vh;
     z-index: 10;
 }
+
+/*Legend specific*/
+
+
 </style>
 

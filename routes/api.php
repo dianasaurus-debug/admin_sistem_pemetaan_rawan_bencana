@@ -6,7 +6,8 @@ use App\Http\Controllers\API\SOPController;
 use App\Http\Controllers\API\RiwayatBencanaController;
 use App\Http\Controllers\API\PerkiraanBencanaController;
 use App\Http\Controllers\API\BencanaBaruController;
-
+use App\Http\Controllers\DesaController;
+use App\Http\Controllers\API\LokasiDesaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,7 +34,6 @@ Route::prefix('riwayat-bencana')->group(function () {
     Route::get('/puting-beliung', [RiwayatBencanaController::class, 'riwayat_puting_beliung']);
     Route::get('/kekeringan', [RiwayatBencanaController::class, 'riwayat_kekeringan']);
     Route::get('/{year}/{jenis_bencana}', [RiwayatBencanaController::class, 'indexByYear']);
-
 });
 Route::prefix('bencana-baru')->group(function () {
     Route::get('/banjir', [BencanaBaruController::class, 'bencana_baru_banjir']);
@@ -46,4 +46,11 @@ Route::prefix('lokasi-rawan')->group(function () {
     Route::get('/longsor', [PerkiraanBencanaController::class, 'daftar_desa_rawan_longsor']);
     Route::get('/puting-beliung', [PerkiraanBencanaController::class, 'daftar_desa_rawan_putbel']);
     Route::get('/kekeringan', [PerkiraanBencanaController::class, 'daftar_desa_rawan_kekeringan']);
+
+    Route::get('/banjir/{id}', [DesaController::class, 'getStatusBanjir']);
+    Route::get('/longsor/{id}', [DesaController::class, 'getStatusLongsor']);
+    Route::get('/puting-beliung/{id}', [DesaController::class, 'getStatusPutbel']);
+    Route::get('/kekeringan/{id}', [DesaController::class, 'getStatusKekeringan']);
 });
+
+Route::get('/semua-desa', [LokasiDesaController::class, 'index']);

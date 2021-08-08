@@ -49,37 +49,42 @@
                         </div>
                     </div>
                     <div v-if="desa.data.length>0">
-                    <table class="table-fixed w-full">
-                        <thead>
-                        <tr class="bg-gray-100">
-                            <th class="px-4 py-2 w-20">No.</th>
-                            <th class="px-4 py-2">Nama Kecamatan</th>
-                            <th class="px-4 py-2">Nama Desa/Kelurahan</th>
-                            <th class="px-4 py-2">Latitude</th>
-                            <th class="px-4 py-2">Longitude</th>
-                            <th class="px-4 py-2">Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(row, index) in desa.data">
-                            <td class="border px-4 py-2">{{ index+1 }}</td>
-                            <td class="border px-4 py-2">{{ row.kecamatan.kec_nama }}</td>
-                            <td class="border px-4 py-2">{{ row.kel_nama }}</td>
-                            <td class="border px-4 py-2">{{ row.kel_longitude }}</td>
-                            <td class="border px-4 py-2">{{ row.kel_latitude }}</td>
-                            <td class="border px-4 py-2">
-                                <button @click="edit(row)"
-                                        class="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                                    Ubah
-                                </button>
-                                <button @click="deleteRow(row)"
-                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <pagination class="mt-6" :links="desa.links"/>
+                        <table class="table-fixed w-full">
+                            <thead>
+                            <tr class="bg-gray-100">
+                                <th class="px-4 py-2 w-20">No.</th>
+                                <th class="px-4 py-2">Nama Kecamatan</th>
+                                <th class="px-4 py-2">Nama Desa/Kelurahan</th>
+                                <th class="px-4 py-2">Latitude</th>
+                                <th class="px-4 py-2">Longitude</th>
+                                <th class="px-4 py-2">Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(row, index) in desa.data">
+                                <td class="border px-4 py-2">{{ index + 1 }}</td>
+                                <td class="border px-4 py-2">{{ row.kecamatan.kec_nama }}</td>
+                                <td class="border px-4 py-2">{{ row.kel_nama }}</td>
+                                <td class="border px-4 py-2">{{ row.kel_longitude }}</td>
+                                <td class="border px-4 py-2">{{ row.kel_latitude }}</td>
+                                <td class="border px-4 py-2">
+                                    <button @click="edit(row)"
+                                            class="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button @click="deleteRow(row)"
+                                            class="bg-red-500 mr-2 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button @click="getStatusBencanaData(row.id)"
+                                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+                                        Status
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <pagination class="mt-6" :links="desa.links"/>
                     </div>
                     <div v-else>
                         <h5 class="text-gray-400 font-medium font-bold text-center"> Belum ada data</h5>
@@ -122,13 +127,22 @@
                                                 <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
                                             </div>
                                             <div class="mb-4">
-                                                <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">Longitude:</label>
-                                                <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Masukkan koordinat longitude" v-model="form.kel_longitude">
+                                                <label for="exampleFormControlInput1"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Longitude:</label>
+                                                <input type="text"
+                                                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                       id="exampleFormControlInput1"
+                                                       placeholder="Masukkan koordinat longitude"
+                                                       v-model="form.kel_longitude">
                                                 <!--                                                <div v-if="$page.errors.kec_longitude" class="text-red-500">{{ $page.errors.kec_longitude[0] }}</div>-->
                                             </div>
                                             <div class="mb-4">
-                                                <label for="exampleFormControlInput2" class="block text-gray-700 text-sm font-bold mb-2">Latitude:</label>
-                                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  id="exampleFormControlInput2" v-model="form.kel_latitude" placeholder="Masukkan koordinat latitude">
+                                                <label for="exampleFormControlInput2"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">Latitude:</label>
+                                                <input
+                                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                    id="exampleFormControlInput2" v-model="form.kel_latitude"
+                                                    placeholder="Masukkan koordinat latitude">
                                                 <!--                                                <div v-if="$page.errors.kec_latitude" class="text-red-500">{{ $page.errors.kec_latitude[0] }}</div>-->
                                             </div>
                                         </div>
@@ -161,6 +175,71 @@
                             </div>
                         </div>
                     </div>
+                    <div class="fixed z-50 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpenView">
+                        <div
+                            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                            <div class="fixed inset-0 transition-opacity">
+                                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                            </div>
+                            <!-- This element is to trick the browser into centering the modal contents. -->
+                            <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+                            <div
+                                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                                role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                    <div class="mb-4">
+                                        <h4>Data Status Kerawanan Bencana</h4>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h5 class="font-bold">Banjir :
+                                            <span v-if="rawan_bencana.banjir==0" class="text-green-600">Rendah</span>
+                                            <span v-if="rawan_bencana.banjir==1" class="text-yellow-600">Sedang</span>
+                                            <span v-else-if="rawan_bencana.banjir==2" class="text-red-500">Tinggi</span>
+                                        </h5>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h5 class="font-bold">Longsor :
+                                            <span v-if="rawan_bencana.longsor==0" class="text-green-600">Rendah</span>
+                                            <span v-else-if="rawan_bencana.longsor==1"
+                                                  class="text-yellow-600">Sedang</span>
+                                            <span v-else-if="rawan_bencana.longsor==2"
+                                                  class="text-red-500">Tinggi</span>
+                                        </h5>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h5 class="font-bold">Kekeringan :
+                                            <span v-if="rawan_bencana.kekeringan==0"
+                                                  class="text-green-600">Rendah</span>
+                                            <span v-else-if="rawan_bencana.kekeringan==1"
+                                                  class="text-yellow-600">Sedang</span>
+                                            <span v-else-if="rawan_bencana.kekeringan==2"
+                                                  class="text-red-500">Tinggi</span>
+                                        </h5>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h5 class="font-bold">Puting Beliung :
+                                            <span v-if="rawan_bencana.puting_beliung==0"
+                                                  class="text-green-600">Rendah</span>
+                                            <span v-else-if="rawan_bencana.puting_beliung==1" class="text-yellow-600">Sedang</span>
+                                            <span v-else-if="rawan_bencana.puting_beliung==2" class="text-red-500">Tinggi</span>
+                                        </h5>
+                                    </div>
+
+                                </div>
+                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                    <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+
+                              <button @click="closeViewModal()" type="button"
+                                      class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                Tutup
+                              </button>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -171,6 +250,7 @@ import AppLayout from '../Layouts/AppLayout'
 import Input from "@/Jetstream/Input";
 import Pagination from '@/Components/Pagination'
 import Multiselect from '@vueform/multiselect'
+import axios from 'axios';
 
 export default {
     name: "Desa",
@@ -185,22 +265,29 @@ export default {
         return {
             editMode: false,
             isOpen: false,
+            isOpenView: false,
             form: {
                 id_kecamatan: null,
                 kel_nama: null,
                 kel_latitude: null,
                 kel_longitude: null,
             },
-            dataKecamatan : [],
+            dataKecamatan: [],
             query: '',
-            isSearching: false
+            isSearching: false,
+            rawan_bencana: {
+                banjir: '',
+                longsor: '',
+                kekeringan: '',
+                puting_beliung: ''
+            }
         }
     },
     created() {
-        this.kecamatan.forEach(kecamatan=>{
+        this.kecamatan.forEach(kecamatan => {
             this.dataKecamatan.push({
-                value : kecamatan.id,
-                label : kecamatan.kec_nama
+                value: kecamatan.id,
+                label: kecamatan.kec_nama
             })
         });
         this.isSearching = !!new URLSearchParams(window.location.search).get('cari');
@@ -208,6 +295,21 @@ export default {
     methods: {
         searchData: function () {
             this.$inertia.get(`/kelurahan?cari=${this.query}`)
+        },
+        getStatusBencanaData: function (id) {
+            axios.get('/api/lokasi-rawan/banjir/' + id).then(data => {
+                this.rawan_bencana.banjir = data.data.status;
+            })
+            axios.get('/api/lokasi-rawan/longsor/' + id).then(data => {
+                this.rawan_bencana.longsor = data.data.status;
+            })
+            axios.get('/api/lokasi-rawan/kekeringan/' + id).then(data => {
+                this.rawan_bencana.kekeringan = data.data.status;
+            })
+            axios.get('/api/lokasi-rawan/puting-beliung/' + id).then(data => {
+                this.rawan_bencana.puting_beliung = data.data.status;
+            })
+            this.isOpenView = true;
         },
         clearSearch: function () {
             this.query = '';
@@ -220,6 +322,13 @@ export default {
             this.isOpen = false;
             this.reset();
             this.editMode = false;
+        },
+        closeViewModal: function () {
+            this.isOpenView = false;
+            this.rawan_bencana.banjir = '';
+            this.rawan_bencana.longsor = '';
+            this.rawan_bencana.kekeringan = '';
+            this.rawan_bencana.puting_beliung = '';
         },
         reset: function () {
             this.form = {
@@ -242,12 +351,13 @@ export default {
         },
         update: function (data) {
             this.$inertia.post('/kelurahan/' + data.id, {
-                id_kecamatan : data.id_kecamatan,
-                kel_nama : data.kel_nama,
-                kel_latitude : data.kel_latitude,
-                kel_longitude : data.kel_longitude,
-                _method : 'PUT'}
-                )
+                    id_kecamatan: data.id_kecamatan,
+                    kel_nama: data.kel_nama,
+                    kel_latitude: data.kel_latitude,
+                    kel_longitude: data.kel_longitude,
+                    _method: 'PUT'
+                }
+            )
             this.reset();
             this.closeModal();
         },
